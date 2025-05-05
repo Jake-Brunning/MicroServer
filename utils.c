@@ -70,3 +70,37 @@ void copyString(char* dest, char* src) {
     }
     dest[i] = '\0';
 }
+
+
+//gets the string between 2 indexes.
+char* partOfString(char* string, int start, int end){
+    // Allocate memory for the substring
+    char* substring = malloc(end - start + 1); // +1 for null terminator
+
+    // Copy the characters from the original string to the substring
+    int j = 0;
+    for (int i = start; i < end; i++) {
+        substring[j] = string[i];
+        j++;
+    }
+    substring[j] = '\0'; // Null-terminate the substring
+
+    return substring; // Return the substring
+}
+
+//checks if 2 strings are equal.
+int strEq(const char* str1, const char* str2){
+    //go through characters until there not equal.
+    int i = 0;
+    while(str1[i] == str2[i] ){
+        i++;
+    }
+
+    //no need for +1 as we check null terminator.
+    if(i == strlen(str1) && i == strlen(str2)){
+        return true; 
+    }
+    else{
+        return false; 
+    }
+}

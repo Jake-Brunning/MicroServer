@@ -6,7 +6,7 @@
 struct variable {
     char* name;
     char* type; //type of variable. NEEDS TO BE IMPLEMENTED.
-    char* instr; //the instruction the variable represents.
+    char* value; //the value.
 };
 
 //handle the incoming data.
@@ -117,7 +117,7 @@ void setVariable(const char* command, struct variable** env, int envPointer){
     //add the variable to the environment.
     struct variable* newVar = malloc(sizeof(struct variable)); // Allocate memory for the new variable
     newVar->name = varName;
-    newVar->instr = varValue; // set name and instruction.
+    newVar->value = varValue; // set name and instruction.
     env[envPointer] = newVar; // Add the variable to the environment
 }
 
@@ -170,5 +170,62 @@ void repeatCommand(const char* command, struct variable** env, int envPointer){
 int convertCharToInt(const char chr){
     // Convert the character to an integer value
     int num = chr - '0'; // Subtract the ASCII value of '0' to get the integer value
+    
+    //likely means its a variable.
+    if(num < 0 || num > 9) {
+        return -1;
+    }
+    
     return num;
 }
+
+
+char* readParameter(const char* command, int startOfParam, struct variable** env, int envPointer){
+    //get where parameter ends
+    int endOfParam = startOfParam;
+    while(command[endOfParam] != ' ' && command[endOfParam] != '\0'){
+        endOfParam++;
+    }
+
+    //return the param
+    return partOfString(command, startOfParam, endOfParam);
+}
+
+int readNumber(const char* command, int startOfNum, struct variable** env, int envPointer){
+    char* strNum = readParameter(command, startOfNum, env, envPointer);
+    
+    //read the number
+    int total = 0;
+    int i = 0;
+    bool isVar = false;
+    while(strNum[i] != '\0'){
+        int num = convertCharToInt(strNum[i]);
+        if(num == -1){ //not num probably a variable.
+            isVar = true;
+            break; 
+        }
+        total = total * 10 + num; //add to total
+    }
+
+    if(isVar){
+        struct variable* var = readFromEnv(strNum, env, envPointer); //get variable from env.
+        return readNumber(var->value, 0, env, envPointer); //read the number in the variable.
+    }
+
+    return total;
+}
+
+
+struct variable* readFromEnv(const char* varName, struct variable** env, int envPointer){
+    //go through all variables and find the one with the same name.
+    for(int i = 0; i < envPointer; i++){
+        if(strEq(env[i]->name, varName) == 0){
+            return env[i]; //return the variable.
+        }
+    }
+
+    return NULL; //not found.
+}
+
+
+
