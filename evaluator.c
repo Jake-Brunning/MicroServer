@@ -60,11 +60,11 @@ char** identifyAndExecuteCommand(const char* command, struct variable** env, int
 
 //youll never guess what this does
 void LED_ON_Command(){
-    pico_set_led(true); // Turn the LED on
+    pico_set_led(1); // Turn the LED on
 }
 
 void LED_OFF_Command(){
-    pico_set_led(false); // Turn the LED off
+    pico_set_led(0); // Turn the LED off
 }
 
 void setVariable(const char* command, struct variable** env, int envPointer){
@@ -197,11 +197,11 @@ int readNumber(const char* command, int startOfNum, struct variable** env, int e
     //read the number
     int total = 0;
     int i = 0;
-    bool isVar = false;
+    int isVar = 0;
     while(strNum[i] != '\0'){
         int num = convertCharToInt(strNum[i]);
         if(num == -1){ //not num probably a variable.
-            isVar = true;
+            isVar = 1;
             break; 
         }
         total = total * 10 + num; //add to total
