@@ -35,7 +35,7 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(MicroServer MicroServer.c )
+add_executable(MicroServer MicroServer.c evaluator.c utils.c)
 
 pico_set_program_name(MicroServer "MicroServer")
 pico_set_program_version(MicroServer "0.1")
