@@ -1,5 +1,5 @@
 //removes whitespace from a string
-char removeWhiteSpace(char* str) {
+char* removeWhiteSpace(char* str) {
     char* newStr = malloc(strlen(str) + 1); // Allocate memory for the new string
     int newPtr = 0;
     
@@ -51,4 +51,22 @@ char** splitPayload(const char* payload, const char delimiter, const int maxComm
 
     commandList[i] = NULL;
     return commandList; // Return the list of commands
+}
+
+int strlen(const char* str) {
+    int length = 0;
+    while (str[length] != '\0') {
+        length++;
+    }
+    return length;
+}
+
+
+void copyString(char* dest, char* src) {
+    int i = 0; 
+    while (src[i] != '\0') {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
 }
