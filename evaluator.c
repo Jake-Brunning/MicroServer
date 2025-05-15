@@ -9,6 +9,14 @@ struct variable {
     char* value; //the value.
 };
 
+//function
+struct function {
+    char* name;
+    char* type;
+    char* instructions;
+    struct variable* params;
+};
+
 //handle the incoming data.
 void handlePayload(const char* payload) {
 
@@ -226,6 +234,3 @@ struct variable* readFromEnv(const char* varName, struct variable** env, int env
 
     return NULL; //not found.
 }
-
-
-

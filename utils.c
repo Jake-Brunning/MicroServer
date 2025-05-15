@@ -16,7 +16,7 @@ char* removeWhiteSpace(char* str) {
 
 
 //checks if the start of a string matches another string.
-bool startMatches(const char* str1, const char * str2) {
+int startMatches(const char* str1, const char * str2) {
     
     //go through characters until there not equal.
     int i = 0;
@@ -26,16 +26,16 @@ bool startMatches(const char* str1, const char * str2) {
 
     //if we have fully consumed the second string then str2 is a prefix of str1.
     if(str2[i] == '\0'){
-        return true; 
+        return 1; 
     }
     else{
-        return false; 
+        return 0; 
     }
 }
 
 
 //split string by delimiter.
-//i have NO clue who made some of these C functions but they suck. why make the inbuilt split function not reentrant?
+//i have NO clue who made some of these library C functions but they suck. why make the inbuilt split function not reentrant?
 char** splitPayload(const char* payload, const char delimiter, const int maxCommands) {
     //split payload into commands
     char* command = strtok(payload, delimiter);
@@ -43,13 +43,13 @@ char** splitPayload(const char* payload, const char delimiter, const int maxComm
 
     //go through all commands and add them to the list.
     int i = 0;
-    while (command != NULL && i < maxCommands) {
+    while (command != '\0' && i < maxCommands) {
         commandList[i] = command;
-        command = strtok(NULL, delimiter);
+        command = strtok('\0', delimiter);
         i++;
     }
 
-    commandList[i] = NULL;
+    commandList[i] = '\0';
     return commandList; // Return the list of commands
 }
 
@@ -98,9 +98,9 @@ int strEq(const char* str1, const char* str2){
 
     //no need for +1 as we check null terminator.
     if(i == strlen(str1) && i == strlen(str2)){
-        return true; 
+        return 1; 
     }
     else{
-        return false; 
+        return 0; 
     }
 }
